@@ -1,0 +1,3 @@
+include battleplan/config/deployment.ini_tmpl
+recursive-include battleplan/public *
+recursive-include battleplan/templates *
