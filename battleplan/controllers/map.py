@@ -6,20 +6,29 @@ from pylons.decorators import jsonify
 
 from battleplan.lib.base import BaseController, render
 from battleplan import model as m
-from battleplan.lib import jumps, systems
 
 log = logging.getLogger(__name__)
 
 class MapController(BaseController):
+    def complete(self):
+        name = request.params.get("q", "")
+        q = m.Session.query(m.SolarSystem).filter(m.SolarSystem.constellationID < 21000000);
+        return "\n".join([s.solarSystemName for s in q.filter(m.SolarSystem.solarSystemName.like(name + "%"))])
+
     @jsonify
     def systems(self):
         q = m.Session.query(m.SolarSystem).filter(m.SolarSystem.constellationID < 21000000);
+
+        constellation = request.params.get("constellation", None)
+        region = request.params.get("region", None)
+        solarSystem = request.params.get("solarSystem", None)
         
-        if "region" in request.params:
-            q = q.filter(m.SolarSystem.regionID == int(request.params.get("region")))
-        
-        if "constellation" in request.params:
-            q = q.filter(m.SolarSystem.constellationID == int(request.params.get("constellation")))
+        if region:
+            q = q.filter(m.SolarSystem.regionID == int(region))
+            if constellation: constellation = int(constellation)
+        elif constellation:
+            q = q.filter(m.SolarSystem.constellationID == int(constellation))
+            if solarSystem: solarSystem = int(solarSystem)
         
         res = int(request.params.get("resolution", 1024))
         
@@ -27,6 +36,9 @@ class MapController(BaseController):
         
         if len(map_systems) == 0:
             return {'systems': [], 'jumps': []}
+
+        jumps = self._py_object.app_globals.jumps;
+        systems = self._py_object.app_globals.systems;
         
         max_x = None
         max_z = None
@@ -65,16 +77,17 @@ class MapController(BaseController):
             res_x = diff_x / diff_z * res
             extra_x = (res - res_x) / 2
 
-        def _add_system(s):
+        def _add_system(s, name):
             return {
                 'security': int(round(s.security * 10.0)),
-                'name': s.solarSystemName,
+                'name': name,
                 'x': int((s.x - min_x) / (max_x - min_x) * res_x + extra_x),
-                'z': int((s.z - min_z) / (max_z - min_z) * res_z + extra_z)
+                'z': int((s.z - min_z) / (max_z - min_z) * res_z + extra_z),
+                'highlight': s.constellationID == constellation or s.solarSystemID == solarSystem
             }
         
         for s in map_systems:
-            result_systems[s.solarSystemID] = _add_system(s)
+            result_systems[s.solarSystemID] = _add_system(s, s.solarSystemName)
         
         result_jumps = list()
         visited_jumps = set()
@@ -99,7 +112,7 @@ class MapController(BaseController):
                 # is this a jump over the edge?
                 if s.solarSystemID not in result_systems:
                     in_coll = False
-                    result_systems[s.solarSystemID] = _add_system(s)
+                    result_systems[s.solarSystemID] = _add_system(s, "")
                 
                 jump_id_rev = (j, s_id)
                 

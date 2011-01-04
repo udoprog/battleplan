@@ -1,0 +1,42 @@
+html {
+    margin: 0; padding: 0;
+    font-family: sans-serif;
+    font-size: 12px;
+}
+
+body {
+    margin: 3; padding: 0;
+}
+
+div#navigation {
+    padding: 2px;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+.reports {
+    font-size: 10px;
+}
+
+.reports .date {
+    margin: 0 0.5em 0 0;
+    font-weight: bold;
+    font-size: 120%;
+}
+
+.reports .time {
+    margin: 0 0.5em 0 0;
+    font-weight: bold;
+}
+
+.reports .text {
+    display: block;
+    margin-left: 1em;
+}
+
+.flash.bright {
+    background-color: #ffff00;
+}

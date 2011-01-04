@@ -4,9 +4,9 @@ Provides the BaseController class for subclassing.
 """
 from pylons.controllers import WSGIController
 from pylons.templating import render_mako as render
-from pylons import tmpl_context as c
 
 from battleplan.model.meta import Session
+from battleplan.lib.error import ErrorDict
 
 class BaseController(WSGIController):
 
@@ -15,8 +15,10 @@ class BaseController(WSGIController):
         # WSGIController.__call__ dispatches to the Controller method
         # the request is routed to. This routing information is
         # available in environ['pylons.routes_dict']
-        c.eve = environ["eve"];
-
+        py_object = environ['pylons.pylons']
+        py_object.tmpl_context.errors = ErrorDict();
+        py_object.tmpl_context.eve = environ["eve"]
+        
         try:
             return WSGIController.__call__(self, environ, start_response)
         finally:

@@ -15,4 +15,6 @@ def setup_app(command, conf, vars):
         load_environment(conf.global_conf, conf.local_conf)
 
     # Create the tables if they don't already exist
+    log.info("Creating database tables");
     Base.metadata.create_all(bind=Session.bind)
+    log.info("Finished setting up")

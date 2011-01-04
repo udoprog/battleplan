@@ -20,8 +20,12 @@ def make_map(config):
 
     # CUSTOM ROUTES HERE
     map.connect('/map/systems', controller='map', action='systems')
+    map.connect('/map/complete', controller='map', action='complete')
     
-    map.connect('/travel', controller='travel', action='index')
-    map.connect('/travel/plot', controller='travel', action='plot')
+    map.connect('travel_index', '/travel', controller='travel', action='index')
+    map.connect('/travel/{action}', controller='travel')
+    map.connect('intel_index', '/intel', controller='intel', action='index')
     
+    map.resource("report", "reports")
+    map.resource("solarsystem", "solarsystems")
     return map
