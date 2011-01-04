@@ -9,7 +9,7 @@ from sqlalchemy import engine_from_config
 import battleplan.lib.app_globals as app_globals
 import battleplan.lib.helpers
 from battleplan.config.routing import make_map
-from battleplan.model import init_model
+from battleplan.model import init_model, init_systems, init_jumps
 
 def load_environment(global_conf, app_conf):
     """Configure the Pylons environment via the ``pylons.config``
@@ -50,5 +50,7 @@ def load_environment(global_conf, app_conf):
 
     # CONFIGURATION OPTIONS HERE (note: all config options will override
     # any Pylons config options)
+    config["pylons.app_globals"].systems = init_systems()
+    config["pylons.app_globals"].jumps = init_jumps()
     
     return config

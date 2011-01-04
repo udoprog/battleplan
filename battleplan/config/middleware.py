@@ -10,6 +10,45 @@ from routes.middleware import RoutesMiddleware
 
 from battleplan.config.environment import load_environment
 
+class EveState:
+  def __init__(self, environ):
+    self.trusted = "HTTP_EVE_TRUSTED" in environ and environ["HTTP_EVE_TRUSTED"] == "Yes"
+    
+    if self.trusted:
+        self.char_id = int(environ["HTTP_EVE_CHARID"]);
+        self.char_name = environ["HTTP_EVE_CHARNAME"];
+        self.station_id = int(environ["HTTP_EVE_STATIONID"]);
+        self.station_name = environ["HTTP_EVE_STATIONNAME"];
+        self.corp_name = environ["HTTP_EVE_CORPNAME"];
+        self.constellation_name = environ["HTTP_EVE_CONSTELLATIONNAME"];
+        self.region_name = environ["HTTP_EVE_REGIONNAME"];
+        self.solarsystem_name = environ["HTTP_EVE_SOLARSYSTEMNAME"];
+    else:
+        self.char_id = None;
+        self.char_name = None;
+        self.station_id = None;
+        self.station_name= None;
+        self.corp_name = None;
+        self.constellation_name = None;
+        self.region_name = None;
+        self.solarsystem_name = None;
+    
+    if "HTTP_EVE_ALLIANCEID" in environ:
+        self.alliance_id = int(environ["HTTP_EVE_ALLIANCEID"]);
+        self.alliance_name = environ["HTTP_EVE_ALLIANCENAME"];
+    else:
+        self.alliance_id = None;
+        self.alliance_name = None;
+
+class EveMiddleware:
+  def __init__(self, app, config):
+    self.app = app
+    self.config = config
+
+  def __call__(self, environ, start_response):
+    environ["eve"] = EveState(environ);
+    return self.app(environ, start_response)
+
 def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
     """Create a Pylons WSGI application and return it
 
@@ -38,11 +77,12 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
 
     # The Pylons WSGI app
     app = PylonsApp(config=config)
-
+    app = EveMiddleware(app, config)
+    
     # Routing/Session/Cache Middleware
     app = RoutesMiddleware(app, config['routes.map'], singleton=False)
     app = SessionMiddleware(app, config)
-
+    
     # CUSTOM MIDDLEWARE HERE (filtered by error handling middlewares)
 
     if asbool(full_stack):
