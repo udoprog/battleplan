@@ -104,3 +104,7 @@ function draw_systems(url, canvas, request) {
         }
     });
 }
+
+function json_error(data) {
+    alert(data.error);
+}

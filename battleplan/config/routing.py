@@ -26,6 +26,21 @@ def make_map(config):
     map.connect('/travel/{action}', controller='travel')
     map.connect('intel_index', '/intel', controller='intel', action='index')
     
+    map.connect('latest.json', "/reports/latest.json", controller="reports", action="latest_reports")
+    map.connect('check.json', "/reports/check.json", controller="reports", action="latest_check")
+    
+    map.connect("index", "/", controller="main", action="index")
+    map.connect("help", "/help", controller="main", action="help")
+
     map.resource("report", "reports")
+    map.resource("hash", "hashes")
     map.resource("solarsystem", "solarsystems")
+
+    map.connect("auth_signout", "/auth/signout", controller="auth", action="signout")
+    map.connect("auth_signin", "/auth/signin", controller="auth", action="signin",
+        conditions=dict(method=["GET"]))
+    map.connect("/auth/signin", controller="auth", action="do_signin",
+        conditions=dict(method=["POST"]))
+    
+    #map.connect("/solarsystems/current", controller="solarsystems", action="show")
     return map

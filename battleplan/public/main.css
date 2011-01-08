@@ -1,42 +1,156 @@
 html {
-    margin: 0; padding: 0;
+    margin: 0;
+    padding: 0;
     font-family: sans-serif;
     font-size: 12px;
+    background-color: #7ea8d2;
 }
 
 body {
-    margin: 3; padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
-div#navigation {
-    padding: 2px;
+ul.nav {
+    display: block;
+    border-top: 1px solid #dddddd;
+    border-bottom: 1px solid #aaaaaa;
+    background-color: #dedede;
+    margin-bottom: 2px;
+    height: 24px;
+}
+
+ul.nav li {
+    float: left;
+    padding: 4px 0 4px 8px;
+}
+
+ul.nav li.notice {
+    font-weight: 100;
+}
+
+ul.nav li.right {
+    float: right;
+    padding: 4px 8px 4px 0;
+}
+
+ul.nav li.center {
+    float: center;
+}
+
+ul.nav li a {
+    font-weight: bold;
+    text-decoration: none;
+}
+
+ul.nav li a:hover {
+    text-decoration: underline;
+}
+
+ul.nav.sub a {
+    font-size: 90%;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+div#main {
+    padding: 0.4em;
+}
+
+div.error {
+    padding: 8px 4px;
+    font-weight: bold;
+    color: red;
 }
 
 ul {
     margin: 0;
     padding: 0;
+    list-style: none;
 }
 
 .reports {
     font-size: 10px;
 }
 
+.reports li {
+    clear: both;
+    display: block;
+    height: 20px;
+    line-height: 20px;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+
 .reports .date {
-    margin: 0 0.5em 0 0;
+    float: left;
     font-weight: bold;
-    font-size: 120%;
 }
 
 .reports .time {
-    margin: 0 0.5em 0 0;
+    float: left;
     font-weight: bold;
 }
 
+.reports .solarsystem {
+    float: left;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+}
+
+.reports .title {
+    float: right;
+    font-weight: bold;
+}
+
+a {
+    color: black;
+}
+
 .reports .text {
-    display: block;
+    float: left;
     margin-left: 1em;
 }
 
-.flash.bright {
-    background-color: #ffff00;
+.reports .link {
+    float: right;
+}
+
+.flash {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+.flash a {
+    color: #ffffff;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    padding: 0; margin: 0;
+}
+
+/*  */
+.level-0 {
+    background-color: #4343e0;
+    color: #ffffff;
+}
+
+.level-1 {
+    background-color: #9843e0;
+    color: #ffffff;
+}
+
+.level-2 {
+    background-color: #e08f43;
+    color: #ffffff;
+}
+
+.level-3 {
+    background-color: #e04343;
+    color: #ffffff;
+}
+
+.level-4 {
+    background-color: #000000;
+    color: #ffffff;
 }

@@ -46,7 +46,13 @@ class SolarsystemsController(BaseController):
 
     def show(self, id, format='html'):
         """GET /solarsystems/id: Show a specific item"""
+        if id == "current" and c.eve.trusted:
+            c.solarsystem = m.SolarSystem.by_name(c.eve.solarsystem_name).first()
+            if c.solarsystem:
+                return redirect(url.current(id=c.solarsystem.solarSystemID))
+        
         c.solarsystem = m.SolarSystem.get(id).first()
+        
         if not c.solarsystem:
             abort(404)
         

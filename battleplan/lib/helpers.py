@@ -5,5 +5,5 @@ available to Controllers. This module is available to templates as 'h'.
 """
 # Import helpers as desired, or define your own, ie:
 from webhelpers.html.tags import form, end_form
-from webhelpers.html.tags import checkbox, password, select, submit, text, textarea
+from webhelpers.html.tags import checkbox, password, select, submit, text, textarea, radio
 from webhelpers.html.tags import link_to

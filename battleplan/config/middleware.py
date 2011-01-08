@@ -10,6 +10,8 @@ from routes.middleware import RoutesMiddleware
 
 from battleplan.config.environment import load_environment
 
+from authkit import authenticate
+
 class EveState:
   def __init__(self, environ):
     self.trusted = "HTTP_EVE_TRUSTED" in environ and environ["HTTP_EVE_TRUSTED"] == "Yes"
@@ -17,8 +19,6 @@ class EveState:
     if self.trusted:
         self.char_id = int(environ["HTTP_EVE_CHARID"]);
         self.char_name = environ["HTTP_EVE_CHARNAME"];
-        self.station_id = int(environ["HTTP_EVE_STATIONID"]);
-        self.station_name = environ["HTTP_EVE_STATIONNAME"];
         self.corp_name = environ["HTTP_EVE_CORPNAME"];
         self.constellation_name = environ["HTTP_EVE_CONSTELLATIONNAME"];
         self.region_name = environ["HTTP_EVE_REGIONNAME"];
@@ -26,12 +26,17 @@ class EveState:
     else:
         self.char_id = None;
         self.char_name = None;
-        self.station_id = None;
-        self.station_name= None;
         self.corp_name = None;
         self.constellation_name = None;
         self.region_name = None;
         self.solarsystem_name = None;
+
+    if "HTTP_EVE_STATIONID" in environ:
+        self.station_id = int(environ["HTTP_EVE_STATIONID"]);
+        self.station_name = environ["HTTP_EVE_STATIONNAME"];
+    else:
+        self.station_id = None;
+        self.station_name= None;
     
     if "HTTP_EVE_ALLIANCEID" in environ:
         self.alliance_id = int(environ["HTTP_EVE_ALLIANCEID"]);
@@ -77,18 +82,18 @@ def make_app(global_conf, full_stack=True, static_files=True, **app_conf):
 
     # The Pylons WSGI app
     app = PylonsApp(config=config)
-    app = EveMiddleware(app, config)
     
     # Routing/Session/Cache Middleware
     app = RoutesMiddleware(app, config['routes.map'], singleton=False)
     app = SessionMiddleware(app, config)
     
     # CUSTOM MIDDLEWARE HERE (filtered by error handling middlewares)
+    app = EveMiddleware(app, config)
 
     if asbool(full_stack):
         # Handle Python exceptions
         app = ErrorHandler(app, global_conf, **config['pylons.errorware'])
-
+        
         # Display error documents for 401, 403, 404 status codes (and
         # 500 when debug is disabled)
         if asbool(config['debug']):

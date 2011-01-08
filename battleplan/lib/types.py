@@ -1,5 +1,5 @@
 from sqlalchemy import types, Column
-from sqlalchemy.types import BINARY
+from sqlalchemy.types import BINARY, Integer
 from sqlalchemy.schema import Column
 
 import uuid
@@ -14,7 +14,10 @@ class UUID(types.TypeDecorator):
         if value and isinstance(value,uuid.UUID):
             return value.bytes
         elif value and isinstance(value,basestring):
-            return uuid.UUID(value).bytes
+            try:
+                return uuid.UUID(value).bytes
+            except ValueError:
+                return None
         elif value:
             raise ValueError,'value %s is not a valid uuid.UUID' % value
         else:
@@ -29,5 +32,5 @@ class UUID(types.TypeDecorator):
     def is_mutable(self):
         return False
  
-def id_column(id_column_name = "id"):
-    return Column(id_column_name,UUID(),primary_key=True)
+def id_column(id_column_name = "id",*args):
+    return Column(id_column_name,UUID(),*args,primary_key=True)
