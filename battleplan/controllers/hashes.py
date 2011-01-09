@@ -2,21 +2,30 @@ import logging
 
 from pylons import request, response, session, tmpl_context as c, url
 from pylons.controllers.util import abort, redirect
+from webhelpers import paginate
 
 from battleplan.lib.base import BaseController, render
 from battleplan import model as m
+from battleplan.lib.decorators import validate
+from battleplan.lib.validator import Integer
 
 log = logging.getLogger(__name__)
 
 class HashesController(BaseController):
+    auth_required = True
     """REST Controller styled on the Atom Publishing Protocol"""
     # To properly map this controller, ensure your config/routing.py
     # file has a resource setup:
     #     map.resource('hash', 'hashes')
 
+    @validate("page", Integer(default=0))
+    @validate("c", Integer(default=25, min=10, max=100))
     def index(self, format='html'):
         """GET /hashes: All items in the collection"""
         # url('hashes')
+        c.hashes = m.Session.query(m.Hash)
+        c.page = paginate.Page(c.hashes, page_param="p", page=c.page, items_per_page=c.c, c=c.c)
+        return render("/hashes/index.mako")
 
     def create(self):
         """POST /hashes: Create a new item"""

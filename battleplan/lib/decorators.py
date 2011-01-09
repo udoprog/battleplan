@@ -51,6 +51,7 @@ def validate(*vals, **kw):
                 key, val = vals[i], vals[i+1]
                 try: setattr(c, key, val.__call__(request.params.get(key, None)))
                 except ValueError, e:
+                    log.warn(key + ": " + str(e))
                     setattr(c.errors, key, str(e))
                     setattr(c, key, request.params.get(key, None))
                     verr = True

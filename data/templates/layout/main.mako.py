@@ -4,7 +4,7 @@ UNDEFINED = runtime.UNDEFINED
 __M_dict_builtin = dict
 __M_locals_builtin = locals
 _magic_number = 5
-_modified_time = 1294503027.257045
+_modified_time = 1294522981.4326789
 _template_filename=u'/home/udoprog/repo/git/battleplan/battleplan/templates/layout/main.mako'
 _template_uri=u'/layout/main.mako'
 _template_cache=cache.Cache(__name__, _modified_time)
@@ -63,41 +63,44 @@ def render_body(context,**pageargs):
         __M_writer(u'            });\n        </script>\n    </head>\n    <body>\n        <ul class="nav">\n            <li>\n                ')
         # SOURCE LINE 25
         __M_writer(escape(h.link_to("Intel", url('reports'))))
+        __M_writer(u'\n            </li>\n            \n            <li>\n                ')
+        # SOURCE LINE 29
+        __M_writer(escape(h.link_to("Hash", url('hashes'))))
         __M_writer(u'\n            </li>\n            \n')
-        # SOURCE LINE 28
+        # SOURCE LINE 32
         if not c.eve.trusted:
-            # SOURCE LINE 29
+            # SOURCE LINE 33
             __M_writer(u'                <li class="notice">Trust Site<li>\n')
-            # SOURCE LINE 30
+            # SOURCE LINE 34
         else:
-            # SOURCE LINE 31
+            # SOURCE LINE 35
             __M_writer(u'                <li>')
             __M_writer(escape(h.link_to("Current", url('solarsystem', id="current"))))
             __M_writer(u'</li>\n')
             pass
-        # SOURCE LINE 33
+        # SOURCE LINE 37
         __M_writer(u'\n')
-        # SOURCE LINE 34
+        # SOURCE LINE 38
         if c.user:
-            # SOURCE LINE 35
+            # SOURCE LINE 39
             __M_writer(u'                <li class="right">')
             __M_writer(escape(h.link_to("Sign Out", url('auth_signout'))))
             __M_writer(u'</li>\n')
             pass
-        # SOURCE LINE 37
+        # SOURCE LINE 41
         __M_writer(u'            \n            <li class="right">')
-        # SOURCE LINE 38
+        # SOURCE LINE 42
         __M_writer(escape(h.link_to("Help", url('help'))))
         __M_writer(u'</li>\n        </ul>\n        ')
-        # SOURCE LINE 40
+        # SOURCE LINE 44
         __M_writer(escape(self.top()))
         __M_writer(u'\n        <div id="main">\n            ')
-        # SOURCE LINE 42
+        # SOURCE LINE 46
         __M_writer(escape(next.body()))
         __M_writer(u'\n        </div>\n    </body>\n</html>\n')
-        # SOURCE LINE 48
+        # SOURCE LINE 52
         __M_writer(u'\n')
-        # SOURCE LINE 49
+        # SOURCE LINE 53
         __M_writer(u'\n')
         return ''
     finally:
@@ -117,9 +120,9 @@ def render_top(context):
     context.caller_stack._push_frame()
     try:
         __M_writer = context.writer()
-        # SOURCE LINE 46
+        # SOURCE LINE 50
         __M_writer(u'\n')
-        # SOURCE LINE 47
+        # SOURCE LINE 51
         runtime._include_file(context, u'/errors.mako', _template_uri)
         __M_writer(u'\n')
         return ''

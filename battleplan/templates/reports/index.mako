@@ -1,5 +1,5 @@
 <%inherit file="/layout/reports.mako" />
-<h1>Latest Intel</h1>
+<h2>Latest Intel</h2>
 
 <ul id="latest-reports" class="reports">
     <li>Loading Reports...</li>

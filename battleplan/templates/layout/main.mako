@@ -25,6 +25,10 @@
                 ${h.link_to("Intel", url('reports'))}
             </li>
             
+            <li>
+                ${h.link_to("Hash", url('hashes'))}
+            </li>
+            
             %if not c.eve.trusted:
                 <li class="notice">Trust Site<li>
             %else:

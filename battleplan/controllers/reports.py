@@ -119,7 +119,7 @@ class ReportsController(BaseController):
     def _create_error(self, keys):
         if not c.solarSystem:
             c.solarSystem = ""
-        else:
+        if isinstance(c.solarSystem, m.SolarSystem):
             c.solarSystem = c.solarSystem.solarSystemName
         
         return render('/reports/new.mako')

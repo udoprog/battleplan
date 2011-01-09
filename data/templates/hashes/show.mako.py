@@ -4,7 +4,7 @@ UNDEFINED = runtime.UNDEFINED
 __M_dict_builtin = dict
 __M_locals_builtin = locals
 _magic_number = 5
-_modified_time = 1294517716.1418791
+_modified_time = 1294521470.096112
 _template_filename='/home/udoprog/repo/git/battleplan/battleplan/templates/hashes/show.mako'
 _template_uri='/hashes/show.mako'
 _template_cache=cache.Cache(__name__, _modified_time)
@@ -32,23 +32,23 @@ def render_body(context,**pageargs):
         c = context.get('c', UNDEFINED)
         __M_writer = context.writer()
         # SOURCE LINE 1
-        __M_writer(u'\n\n<h1>')
+        __M_writer(u'\n\n<h1>Filter by #')
         # SOURCE LINE 3
         __M_writer(escape(c.hash.name))
-        __M_writer(u'</h1>\n\n<h2>Latest Reports</h2>\n\n<ul id="latest-reports" class="reports"></ul>\n\n<script type="text/javascript">\n$(function() {\n    var options = {\n        \'url.reports\': "')
-        # SOURCE LINE 12
+        __M_writer(u'</h1>\n\n<h2>Latest Intel</h2>\n\n<ul id="latest-reports" class="reports">\n    <li>Loading Reports...</li>\n</ul>\n\n\n<script type="text/javascript">\n$(function() {\n    var options = {\n        \'url.reports\': "')
+        # SOURCE LINE 15
         __M_writer(escape(url('latest.json')))
         __M_writer(u'",\n        \'url.check\': "')
-        # SOURCE LINE 13
+        # SOURCE LINE 16
         __M_writer(escape(url('check.json')))
         __M_writer(u'",\n        \'url.system_base\': "')
-        # SOURCE LINE 14
+        # SOURCE LINE 17
         __M_writer(escape(url('solarsystems')))
         __M_writer(u'",\n        \'url.report_base\': "')
-        # SOURCE LINE 15
+        # SOURCE LINE 18
         __M_writer(escape(url('reports')))
         __M_writer(u'",\n        \'flashing\': 120,\n        \'hash\': "')
-        # SOURCE LINE 17
+        # SOURCE LINE 20
         __M_writer(escape(c.hash.id.hex))
         __M_writer(u'"\n    }\n\n    dynamic_reports("#latest-reports", options);\n});\n</script>\n')
         return ''

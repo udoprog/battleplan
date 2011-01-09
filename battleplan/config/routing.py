@@ -30,7 +30,7 @@ def make_map(config):
     map.connect('check.json', "/reports/check.json", controller="reports", action="latest_check")
     
     map.connect("index", "/", controller="main", action="index")
-    map.connect("help", "/help", controller="main", action="help")
+    map.connect("help", "/help/", controller="main", action="help")
 
     map.resource("report", "reports")
     map.resource("hash", "hashes")

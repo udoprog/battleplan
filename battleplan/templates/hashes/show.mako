@@ -1,10 +1,13 @@
 <%inherit file="/layout/main.mako" />
 
-<h1>${c.hash.name}</h1>
+<h1>Filter by #${c.hash.name}</h1>
 
-<h2>Latest Reports</h2>
+<h2>Latest Intel</h2>
 
-<ul id="latest-reports" class="reports"></ul>
+<ul id="latest-reports" class="reports">
+    <li>Loading Reports...</li>
+</ul>
+
 
 <script type="text/javascript">
 $(function() {

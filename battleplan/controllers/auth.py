@@ -19,9 +19,9 @@ class AuthController(BaseController):
         session.save()
         return redirect(url(self.default_path))
     
-    @validate('name', String())
-    @validate('api_userid', String())
-    @validate('api_key', String())
+    @validate('name', String(),
+        'api_userid', String(),
+        'api_key', String())
     def do_signin(self):
         path_before_login = session.pop("path_before_login", self.default_path)
         
@@ -47,10 +47,11 @@ class AuthController(BaseController):
         session.save()
         return redirect(url(path_before_login))
 
-    @validate('name', String(default=None))
-    @validate('api_userid', String(default=""))
-    @validate('api_key', String(default=""))
+    @validate(
+        'name', String(default=""),
+        'api_userid', String(default=""),
+        'api_key', String(default=""))
     def signin(self):
-        if not c.name: c.name = c.eve.char_name if c.eve.trusted else "";
+        if not c.name: c.name = c.eve.char_name;
         c.path_before_login = session.get("path_before_login", self.default_path)
         return render('/auth/signin.mako')

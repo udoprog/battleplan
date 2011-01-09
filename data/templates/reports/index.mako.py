@@ -4,7 +4,7 @@ UNDEFINED = runtime.UNDEFINED
 __M_dict_builtin = dict
 __M_locals_builtin = locals
 _magic_number = 5
-_modified_time = 1294519145.230247
+_modified_time = 1294520397.3177209
 _template_filename='/home/udoprog/repo/git/battleplan/battleplan/templates/reports/index.mako'
 _template_uri='/reports/index.mako'
 _template_cache=cache.Cache(__name__, _modified_time)
@@ -31,7 +31,7 @@ def render_body(context,**pageargs):
         url = context.get('url', UNDEFINED)
         __M_writer = context.writer()
         # SOURCE LINE 1
-        __M_writer(u'\n<h1>Latest Intel</h1>\n\n<ul id="latest-reports" class="reports">\n    <li>Loading Reports...</li>\n</ul>\n\n<script type="text/javascript">\n\n$(function() {\n    var options = {\n        \'url.reports\': "')
+        __M_writer(u'\n<h2>Latest Intel</h2>\n\n<ul id="latest-reports" class="reports">\n    <li>Loading Reports...</li>\n</ul>\n\n<script type="text/javascript">\n\n$(function() {\n    var options = {\n        \'url.reports\': "')
         # SOURCE LINE 12
         __M_writer(escape(url('latest.json')))
         __M_writer(u'",\n        \'url.check\': "')

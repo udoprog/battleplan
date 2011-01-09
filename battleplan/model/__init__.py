@@ -1,7 +1,7 @@
 """The application's model objects"""
 import sqlalchemy as sa
 from sqlalchemy import types
-from sqlalchemy.orm import relation
+from sqlalchemy.orm import relation, synonym
 from battleplan.model.meta import Session, Base
 
 def init_model(engine):
@@ -121,16 +121,30 @@ class Report(Base):
     def by_created(klass, limit=25):
         return Session.query(klass).order_by(klass.created.desc())
 
+import re
+
 class Hash(Base):
     __tablename__ = "hashes"
     id = id_column("id")
-    name = sa.Column(types.Text(36))
+    _name = sa.Column("name", types.Text(36))
     reports = relation(Report, secondary="report_hash")
+    
+    def _get_name(self):
+        return self._name
+    def _set_name(self, value):
+        self._name = self.strip_name(value)
+    name = synonym('_name', descriptor=property(_get_name, _set_name))
     
     def __init__(self):
         import uuid
         Base.__init__(self)
         self.id = uuid.uuid4()
+    
+    _name_re = re.compile("[^a-zA-Z]+")
+    
+    @classmethod
+    def strip_name(klass, val):
+        return klass._name_re.sub("", val).upper()
 
     @classmethod
     def get(klass, id):
