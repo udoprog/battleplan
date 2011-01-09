@@ -77,11 +77,13 @@ function dynamic_reports(selector, options) {
     }
 
     function sort_reports(reports) {
+        /*
         reports.sort(function(a, b){
             if (a.priority == b.priority)
                 return a.diff - b.diff
             return b.priority - a.priority
         });
+        */
         return reports
     }
 

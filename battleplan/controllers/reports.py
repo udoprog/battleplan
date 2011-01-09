@@ -127,7 +127,7 @@ class ReportsController(BaseController):
     )
     def new(self):
         if not c.solarSystem:
-            c.solarSystem = ""
+            c.solarSystem = c.eve.solarsystem_name
         else:
             c.solarSystem = c.solarSystem.solarSystemName
 
@@ -135,7 +135,7 @@ class ReportsController(BaseController):
 
     def _create_error(self, keys):
         if not c.solarSystem:
-            c.solarSystem = ""
+            c.solarSystem = c.eve.solarsystem_name
         if isinstance(c.solarSystem, m.SolarSystem):
             c.solarSystem = c.solarSystem.solarSystemName
         
