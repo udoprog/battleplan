@@ -33,6 +33,8 @@ class SolarsystemsController(BaseController):
 
     @validate("q", String())
     def filter_solarsystems(self):
+        if not c.q:
+            return redirect(url.current(action="index"))
         return redirect(url.current(action="index", q=c.q))
 
     def create(self):
