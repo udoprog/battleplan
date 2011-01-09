@@ -1,6 +1,10 @@
 <%inherit file="/layout/main.mako" />
 
-<h2>List of hashes</h2>
+${h.form(url('filter_hashes'))}
+${h.text("q", value=c.q)} ${h.submit("filter", "Filter")}
+${h.end_form()}
+
+<h2>List of Hashes</h2>
 <ul class="hashes">
 %if c.page.item_count == 0:
     <li class="notice">No hashes</li>

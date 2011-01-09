@@ -1,10 +1,6 @@
 <%inherit file="/layout/main.mako" />
 
-<b>${c.path_before_login}</b>
-
-%if hasattr(c, "error"):
-    ${c.error}
-%endif
+<h1>Locked <em>${c.path_before_login}</em></h1>
 
 ${h.form(url("auth_signin"), method="post")}
 <table>
@@ -26,3 +22,13 @@ ${h.form(url("auth_signin"), method="post")}
 </table>
 
 ${h.end_form()}
+
+<h4>Allowed Alliances</h4>
+<ul>
+%if len(c.alliances) == 0:
+    <li>No registered alliances</li>
+%endif
+%for a in c.alliances:
+    <li><b>${a}</b></li>
+%endfor
+</ul>

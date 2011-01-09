@@ -12,7 +12,8 @@ log = logging.getLogger(__name__)
 class MapController(BaseController):
     def complete(self):
         name = request.params.get("q", "")
-        q = m.Session.query(m.SolarSystem).filter(m.SolarSystem.constellationID < 21000000);
+        q = m.Session.query(m.SolarSystem)
+        #.filter(m.SolarSystem.constellationID < 21000000);
         return "\n".join([s.solarSystemName for s in q.filter(m.SolarSystem.solarSystemName.like(name + "%"))])
 
     @jsonify

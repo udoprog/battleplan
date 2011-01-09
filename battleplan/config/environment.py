@@ -52,5 +52,6 @@ def load_environment(global_conf, app_conf):
     # any Pylons config options)
     config["pylons.app_globals"].systems = init_systems()
     config["pylons.app_globals"].jumps = init_jumps()
+    config["pylons.app_globals"].alliances = [unicode(a.strip()) for a in list(open(config["alliance_list"]))]
     
     return config

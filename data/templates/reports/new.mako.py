@@ -4,7 +4,7 @@ UNDEFINED = runtime.UNDEFINED
 __M_dict_builtin = dict
 __M_locals_builtin = locals
 _magic_number = 5
-_modified_time = 1294512151.51847
+_modified_time = 1294547140.7813449
 _template_filename='/home/udoprog/repo/git/battleplan/battleplan/templates/reports/new.mako'
 _template_uri='/reports/new.mako'
 _template_cache=cache.Cache(__name__, _modified_time)
@@ -69,32 +69,35 @@ def render_body(context,**pageargs):
         __M_writer(u'</td>\n    </tr>\n    <tr>\n        <td valign="top">Title:</td>\n        <td>')
         # SOURCE LINE 24
         __M_writer(escape(h.text('title', style='width: 200px;', maxlength=36, value=c.title)))
-        __M_writer(u'</td>\n    <tr>\n    </tr>\n        <td valign="top">Report:</td>\n        <td>')
-        # SOURCE LINE 28
+        __M_writer(u'</td>\n    <tr>\n    </tr>\n        <td colspan="2"><em>To add ')
+        # SOURCE LINE 27
+        __M_writer(escape(h.link_to("hashes", url('help', anchor="hashes"))))
+        __M_writer(u', prefix a word with \'#\'</em></td>\n    </tr>\n    </tr>\n        <td valign="top">Report:</td>\n        <td>')
+        # SOURCE LINE 31
         __M_writer(escape(h.textarea('text', style='width: 200px; height: 100px;', maxlength=140, content=c.text)))
         __M_writer(u'</td>\n    </tr>\n    <tr>\n        <td valign="top">Priority:</td>\n        <td>\n            <span class="level-0" style=\'padding: 0.2em;\'>')
-        # SOURCE LINE 33
+        # SOURCE LINE 36
         __M_writer(escape(h.radio('priority', value="0", checked=(c.priority==0))))
         __M_writer(u'1</span>\n            <span class="level-1" style=\'padding: 0.2em;\'>')
-        # SOURCE LINE 34
+        # SOURCE LINE 37
         __M_writer(escape(h.radio('priority', value="1", checked=(c.priority==1))))
         __M_writer(u'2</span>\n            <span class="level-2" style=\'padding: 0.2em;\'>')
-        # SOURCE LINE 35
+        # SOURCE LINE 38
         __M_writer(escape(h.radio('priority', value="2", checked=(c.priority==2))))
         __M_writer(u'3</span>\n            <span class="level-3" style=\'padding: 0.2em;\'>')
-        # SOURCE LINE 36
+        # SOURCE LINE 39
         __M_writer(escape(h.radio('priority', value="3", checked=(c.priority==3))))
         __M_writer(u'4</span>\n            <span class="level-4" style=\'padding: 0.2em;\'>')
-        # SOURCE LINE 37
+        # SOURCE LINE 40
         __M_writer(escape(h.radio('priority', value="4", checked=(c.priority==4))))
         __M_writer(u'5</span>\n        </td>\n    </tr>\n    <tr>\n        <td colspan="2">')
-        # SOURCE LINE 41
+        # SOURCE LINE 44
         __M_writer(escape(h.submit('report','Report')))
         __M_writer(u'</td>\n    </tr>\n</table>\n')
-        # SOURCE LINE 44
+        # SOURCE LINE 47
         __M_writer(escape(h.end_form()))
         __M_writer(u'\n\n<script type="text/javascript">\n$(document).ready(function() {\n    $("#solarsystem").autocomplete("')
-        # SOURCE LINE 48
+        # SOURCE LINE 51
         __M_writer(escape(url('/map/complete')))
         __M_writer(u'")\n});\n</script>\n')
         return ''

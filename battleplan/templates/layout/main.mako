@@ -12,11 +12,13 @@
         <link href="${url('/jquery.autocomplete.css')}" type="text/css" rel="stylesheet" />
         ${self.headtags()}
         <script>
-            $(document).ready(function(){
-                %if not c.eve.trusted:
-                    if (window.CCPEVE) CCPEVE.requestTrust("${url('', qualified=True)}")
-                %endif
-            });
+            function check_trust() {
+                if (window.CCPEVE) {
+                    CCPEVE.requestTrust("${url('/', qualified=True)}")
+                }
+                else alert("Currently not running in the EVE in-game browser")
+                return false
+            }
         </script>
     </head>
     <body>
@@ -29,10 +31,12 @@
                 ${h.link_to("Hash", url('hashes'))}
             </li>
             
+            <li>
+                ${h.link_to("Systems", url('solarsystems'))}
+            </li>
+            
             %if not c.eve.trusted:
-                <li class="notice">Trust Site<li>
-            %else:
-                <li>${h.link_to("Current", url('solarsystem', id="current"))}</li>
+                <li class="notice"><a href="#" onclick="return check_trust()">Trust Site</a><li>
             %endif
 
             %if c.user:

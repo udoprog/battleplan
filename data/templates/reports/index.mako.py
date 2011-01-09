@@ -4,7 +4,7 @@ UNDEFINED = runtime.UNDEFINED
 __M_dict_builtin = dict
 __M_locals_builtin = locals
 _magic_number = 5
-_modified_time = 1294520397.3177209
+_modified_time = 1294546630.1554899
 _template_filename='/home/udoprog/repo/git/battleplan/battleplan/templates/reports/index.mako'
 _template_uri='/reports/index.mako'
 _template_cache=cache.Cache(__name__, _modified_time)
@@ -43,7 +43,7 @@ def render_body(context,**pageargs):
         __M_writer(u'",\n        \'url.report_base\': "')
         # SOURCE LINE 15
         __M_writer(escape(url('reports')))
-        __M_writer(u'",\n        \'flashing\': 120\n    }\n\n    dynamic_reports("#latest-reports", options);\n});\n\n</script>\n')
+        __M_writer(u'",\n        \'flashing\': 20\n    }\n\n    dynamic_reports("#latest-reports", options);\n});\n\n</script>\n')
         return ''
     finally:
         context.caller_stack._pop_frame()

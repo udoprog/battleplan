@@ -7,7 +7,7 @@ from webhelpers import paginate
 from battleplan.lib.base import BaseController, render
 from battleplan import model as m
 from battleplan.lib.decorators import validate
-from battleplan.lib.validator import Integer
+from battleplan.lib.validator import Integer, String
 
 log = logging.getLogger(__name__)
 
@@ -18,14 +18,23 @@ class HashesController(BaseController):
     # file has a resource setup:
     #     map.resource('hash', 'hashes')
 
-    @validate("page", Integer(default=0))
-    @validate("c", Integer(default=25, min=10, max=100))
+    @validate(
+        "page", Integer(default=0, max=None),
+        "c", Integer(default=25, min=10, max=100),
+        "q", String(optional=True)
+    )
     def index(self, format='html'):
         """GET /hashes: All items in the collection"""
         # url('hashes')
         c.hashes = m.Session.query(m.Hash)
-        c.page = paginate.Page(c.hashes, page_param="p", page=c.page, items_per_page=c.c, c=c.c)
+        if c.q:
+            c.hashes = c.hashes.filter(m.Hash.name.like(c.q + "%"))
+        c.page = paginate.Page(c.hashes, page=c.page, items_per_page=c.c, c=c.c)
         return render("/hashes/index.mako")
+
+    @validate("q", String())
+    def filter_hashes(self):
+        return redirect(url.current(action="index", q=c.q))
 
     def create(self):
         """POST /hashes: Create a new item"""
@@ -46,6 +55,9 @@ class HashesController(BaseController):
 
     def delete(self, id):
         """DELETE /hashes/id: Delete an existing item"""
+        hash = m.Hash.get(id).first()
+        if not hash:
+            return redirect(url('hashes'))
         # Forms posted to this method should contain a hidden field:
         #    <input type="hidden" name="_method" value="DELETE" />
         # Or using helpers:

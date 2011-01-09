@@ -14,8 +14,9 @@ from battleplan import model as m
 log = logging.getLogger(__name__)
 
 class SolarSystem:
-    def __init__(self, optional=False):
+    def __init__(self, optional=False, by_id=False):
         self.optional = optional
+        self.by_id = by_id
 
     def _handle_missing(self):
         if self.optional: return None
@@ -23,7 +24,8 @@ class SolarSystem:
     
     def __call__(self, value):
         if value is None: return self._handle_missing()
-        solarSystem = m.SolarSystem.by_name(value).first()
+        if self.by_id: solarSystem = m.SolarSystem.get(value).first()
+        else: solarSystem = m.SolarSystem.by_name(value).first()
         if not solarSystem: raise ValueError, "No such solar system '" + value + "'"
         return solarSystem
 
@@ -49,19 +51,23 @@ class ReportsController(BaseController):
         return render('/reports/index.mako')
 
     def _bad_param(self, keys):
-        return {'error': "Missing/invalid parameter '" + ",".join(keys) + "'", 'result': []}
+        return {'error': "Missing/invalid parameters '" + ",".join(keys) + "'", 'result': []}
     
     @jsonify
     @validate(
         "limit", Integer(0, 25),
         "offset", Integer(0, optional=True),
         "hash", Hash(optional=True),
+        "solarsystem", SolarSystem(optional=True, by_id=True),
         error=_bad_param)
     def latest_reports(self):
         q = m.Report.by_created()
         
         if c.hash:
             q = q.filter(m.Report.hashes.contains(c.hash))
+
+        if c.solarsystem:
+            q = q.filter(m.Report.solarSystem == c.solarsystem)
         
         q = q.limit(c.limit).offset(c.offset)
         return {'result': [r.to_json() for r in q.all()], 'error': ""}
@@ -70,6 +76,7 @@ class ReportsController(BaseController):
     @validate(
         "latest_id", String(optional=True),
         "hash", Hash(optional=True),
+        "solarsystem", SolarSystem(optional=True, by_id=True),
         error=_bad_param)
     def latest_check(self):
         q = m.Report.by_created()
@@ -77,15 +84,25 @@ class ReportsController(BaseController):
         if c.hash:
             q = q.filter(m.Report.hashes.contains(c.hash))
         
-        q = q.limit(1)
+        if c.solarsystem:
+            q = q.filter(m.Report.solarSystem == c.solarsystem)
+        
+        r = q.first()
+
+        if r is None:
+            return {'result': False, 'error': ""}
         
         if c.latest_id:
-            return {'result': q.first().id.hex != c.latest_id, 'error': ""}
+            return {'result': r.id.hex != c.latest_id, 'error': ""}
         else:
-            return {'result': q.first() is not None, 'error': ""}
+            return {'result': True, 'error': ""}
     
     def show(self, id):
         c.report = m.Report.get(id).first();
+
+        if not c.report:
+            return abort(404)
+
         c.text = ""
         
         for t,p in reports.tokenize_report(c.report.text):
@@ -96,7 +113,7 @@ class ReportsController(BaseController):
                 else:
                     c.text += h.link_to(s.solarSystemName, url('solarsystem',id=s.solarSystemID))
             elif t == reports.Hash:
-                c.text += h.link_to(p, url('hash', id=p))
+                c.text += h.link_to("#" + p, url('hash', id=p))
             else:
                 c.text += p
         

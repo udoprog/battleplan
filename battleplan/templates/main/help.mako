@@ -2,14 +2,28 @@
 
 <h2>Help</h2>
 
-<h3>How to post Intel</h3>
+<div id="help">
+    <p>
+        topics: <a href="#posting">Posting</a>
+        <a href="#hashes">Hashes</a>
+    </p>
 
-<h4>Locate the 'New Intel' link</h4>
+    <h3 id="posting">How to post Intel</h3>
 
-<img src="${url('/help/posting.png')}" width="314" height="400" />
+    <p>Locate the 'New Intel' link - should be on top of the front page</p>
 
-<h4>Fill out the form and post new intel</h4>
+    <img src="${url('/help/posting.png')}" width="314" height="400" />
 
-<img src="${url('/help/posting-form.png')}" width="314" height="400" />
+    <p>Fill out the form and post new intel</p>
 
+    <img src="${url('/help/posting-form.png')}" width="314" height="400" />
 
+    <h3 id="hashes">Hashes</h3>
+
+    <p>
+        Hashes are special markers which will add an anchor to your report, allowing people who filters their view to receive only the type of reports they are interested in.
+    </p>
+    <p>
+        Anchors are marked with a <em>number sign</em> (e.g. <code>#hash</code>) and are read without case, meaning <em>foo</em> will be treated as the same anchor as <em>FOO</em>.
+    </p>
+</div>

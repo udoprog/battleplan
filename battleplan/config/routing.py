@@ -31,6 +31,8 @@ def make_map(config):
     
     map.connect("index", "/", controller="main", action="index")
     map.connect("help", "/help/", controller="main", action="help")
+    map.connect("filter_hashes", "/hashes/filter", controller="hashes", action="filter_hashes")
+    map.connect("filter_solarsystems", "/solarsystems/filter", controller="solarsystems", action="filter_solarsystems")
 
     map.resource("report", "reports")
     map.resource("hash", "hashes")

@@ -13,7 +13,7 @@ $(function() {
         'url.check': "${url('check.json')}",
         'url.system_base': "${url('solarsystems')}",
         'url.report_base': "${url('reports')}",
-        'flashing': 120
+        'flashing': 20
     }
 
     dynamic_reports("#latest-reports", options);

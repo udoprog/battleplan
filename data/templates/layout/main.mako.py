@@ -4,7 +4,7 @@ UNDEFINED = runtime.UNDEFINED
 __M_dict_builtin = dict
 __M_locals_builtin = locals
 _magic_number = 5
-_modified_time = 1294522981.4326789
+_modified_time = 1294553687.7179661
 _template_filename=u'/home/udoprog/repo/git/battleplan/battleplan/templates/layout/main.mako'
 _template_uri=u'/layout/main.mako'
 _template_cache=cache.Cache(__name__, _modified_time)
@@ -51,56 +51,47 @@ def render_body(context,**pageargs):
         __M_writer(u'" type="text/css" rel="stylesheet" />\n        ')
         # SOURCE LINE 13
         __M_writer(escape(self.headtags()))
-        __M_writer(u'\n        <script>\n            $(document).ready(function(){\n')
-        # SOURCE LINE 16
-        if not c.eve.trusted:
-            # SOURCE LINE 17
-            __M_writer(u'                    if (window.CCPEVE) CCPEVE.requestTrust("')
-            __M_writer(escape(url('', qualified=True)))
-            __M_writer(u'")\n')
-            pass
-        # SOURCE LINE 19
-        __M_writer(u'            });\n        </script>\n    </head>\n    <body>\n        <ul class="nav">\n            <li>\n                ')
-        # SOURCE LINE 25
+        __M_writer(u'\n        <script>\n            function check_trust() {\n                if (window.CCPEVE) {\n                    CCPEVE.requestTrust("')
+        # SOURCE LINE 17
+        __M_writer(escape(url('/', qualified=True)))
+        __M_writer(u'")\n                }\n                else alert("Currently not running in the EVE in-game browser")\n                return false\n            }\n        </script>\n    </head>\n    <body>\n        <ul class="nav">\n            <li>\n                ')
+        # SOURCE LINE 27
         __M_writer(escape(h.link_to("Intel", url('reports'))))
         __M_writer(u'\n            </li>\n            \n            <li>\n                ')
-        # SOURCE LINE 29
+        # SOURCE LINE 31
         __M_writer(escape(h.link_to("Hash", url('hashes'))))
+        __M_writer(u'\n            </li>\n            \n            <li>\n                ')
+        # SOURCE LINE 35
+        __M_writer(escape(h.link_to("Systems", url('solarsystems'))))
         __M_writer(u'\n            </li>\n            \n')
-        # SOURCE LINE 32
-        if not c.eve.trusted:
-            # SOURCE LINE 33
-            __M_writer(u'                <li class="notice">Trust Site<li>\n')
-            # SOURCE LINE 34
-        else:
-            # SOURCE LINE 35
-            __M_writer(u'                <li>')
-            __M_writer(escape(h.link_to("Current", url('solarsystem', id="current"))))
-            __M_writer(u'</li>\n')
-            pass
-        # SOURCE LINE 37
-        __M_writer(u'\n')
         # SOURCE LINE 38
-        if c.user:
+        if not c.eve.trusted:
             # SOURCE LINE 39
+            __M_writer(u'                <li class="notice"><a href="#" onclick="return check_trust()">Trust Site</a><li>\n')
+            pass
+        # SOURCE LINE 41
+        __M_writer(u'\n')
+        # SOURCE LINE 42
+        if c.user:
+            # SOURCE LINE 43
             __M_writer(u'                <li class="right">')
             __M_writer(escape(h.link_to("Sign Out", url('auth_signout'))))
             __M_writer(u'</li>\n')
             pass
-        # SOURCE LINE 41
+        # SOURCE LINE 45
         __M_writer(u'            \n            <li class="right">')
-        # SOURCE LINE 42
+        # SOURCE LINE 46
         __M_writer(escape(h.link_to("Help", url('help'))))
         __M_writer(u'</li>\n        </ul>\n        ')
-        # SOURCE LINE 44
+        # SOURCE LINE 48
         __M_writer(escape(self.top()))
         __M_writer(u'\n        <div id="main">\n            ')
-        # SOURCE LINE 46
+        # SOURCE LINE 50
         __M_writer(escape(next.body()))
         __M_writer(u'\n        </div>\n    </body>\n</html>\n')
-        # SOURCE LINE 52
+        # SOURCE LINE 56
         __M_writer(u'\n')
-        # SOURCE LINE 53
+        # SOURCE LINE 57
         __M_writer(u'\n')
         return ''
     finally:
@@ -120,9 +111,9 @@ def render_top(context):
     context.caller_stack._push_frame()
     try:
         __M_writer = context.writer()
-        # SOURCE LINE 50
+        # SOURCE LINE 54
         __M_writer(u'\n')
-        # SOURCE LINE 51
+        # SOURCE LINE 55
         runtime._include_file(context, u'/errors.mako', _template_uri)
         __M_writer(u'\n')
         return ''

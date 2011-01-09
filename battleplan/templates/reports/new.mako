@@ -24,6 +24,9 @@ ${h.form(url('reports'), method="post")}
         <td>${h.text('title', style='width: 200px;', maxlength=36, value=c.title)}</td>
     <tr>
     </tr>
+        <td colspan="2"><em>To add ${h.link_to("hashes", url('help', anchor="hashes"))}, prefix a word with '#'</em></td>
+    </tr>
+    </tr>
         <td valign="top">Report:</td>
         <td>${h.textarea('text', style='width: 200px; height: 100px;', maxlength=140, content=c.text)}</td>
     </tr>

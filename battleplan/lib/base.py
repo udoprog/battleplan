@@ -21,7 +21,7 @@ class BaseController(WSGIController):
                 session['path_before_login'] = request.path_info
                 session.save()
                 return redirect(url("auth_signin"))
-        
+
         if "user" in session:
             c.user = session["user"]
 

@@ -2,9 +2,12 @@ import logging
 
 from pylons import request, response, session, tmpl_context as c, url
 from pylons.controllers.util import abort, redirect
+from webhelpers import paginate
 
 from battleplan.lib.base import BaseController, render
 from battleplan import model as m
+from battleplan.lib.decorators import validate
+from battleplan.lib.validator import Integer, String
 
 log = logging.getLogger(__name__)
 
@@ -14,9 +17,23 @@ class SolarsystemsController(BaseController):
     # file has a resource setup:
     #     map.resource('solarsystem', 'solarsystems')
 
+    @validate(
+        "page", Integer(default=0, max=None),
+        "c", Integer(default=25, min=10, max=100),
+        "q", String(optional=True)
+    )
     def index(self, format='html'):
         """GET /solarsystems: All items in the collection"""
         # url('solarsystems')
+        c.solarsystems = m.Session.query(m.SolarSystem).order_by(m.SolarSystem.solarSystemName)
+        if c.q:
+            c.solarsystems = c.solarsystems.filter(m.SolarSystem.solarSystemName.like(c.q + "%"))
+        c.page = paginate.Page(c.solarsystems, page=c.page, items_per_page=c.c, c=c.c, q=c.q)
+        return render("/solarsystems/index.mako")
+
+    @validate("q", String())
+    def filter_solarsystems(self):
+        return redirect(url.current(action="index", q=c.q))
 
     def create(self):
         """POST /solarsystems: Create a new item"""

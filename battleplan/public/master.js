@@ -8,9 +8,10 @@ function dynamic_reports(selector, options) {
     var $reports = $(selector);
     
     var opts = $.extend({
-        "flashing": 120,
+        "flashing": 20,
         "flash-class": "flash",
         "hash": null,
+        "solarsystem": null,
         "limit": 25
     }, options);
 
@@ -22,6 +23,7 @@ function dynamic_reports(selector, options) {
         var created = $.format.date(r.created, "HH:mm:ss");
         
         var $report = $("<li />").attr('id', r.id);
+        var $prio = $("<span>").text("P" + (r.priority + 1)).addClass("prio")
         var $time = $("<span>").text(created).addClass("time")
         var $a_system = $("<a>")
             .attr('href', opts["url.system_base"] + "/" + r['solarSystem.solarSystemID'])
@@ -38,13 +40,16 @@ function dynamic_reports(selector, options) {
 
         var level_p = "level-" + r.priority;
         
+        $prio.appendTo($report);
         $time.appendTo($report);
         $solarsystem.appendTo($report);
         $text.appendTo($report);
 
         $("<div>").css('clear', 'both').appendTo($report)
-            
-        if (r.diff < opts["flashing"]) {
+
+        var flashing = (r.priority + 1) * opts["flashing"]
+        
+        if (r.diff < flashing) {
             var self = $report.get(0);
             
             self.interval = setInterval(function(){
@@ -56,7 +61,7 @@ function dynamic_reports(selector, options) {
                 clearInterval(self.interval);
                 $report.removeClass(opts["flash-class"]);
                 $report.removeClass(level_p)
-            }, (opts["flashing"] - r.diff) * 1000);
+            }, (flashing - r.diff) * 1000);
             
             $report.click(function(){
                 clearInterval(self.interval);
@@ -71,14 +76,22 @@ function dynamic_reports(selector, options) {
         return $report
     }
 
-    function reports_check() {
-        if (latest_id == null) return;
+    function sort_reports(reports) {
+        reports.sort(function(a, b){
+            if (a.priority == b.priority)
+                return a.diff - b.diff
+            return b.priority - a.priority
+        });
+        return reports
+    }
 
+    function reports_check() {
         var request = {
             "latest_id": latest_id
         }
         
         if (opts['hash']) request['hash'] = opts['hash']
+        if (opts['solarsystem']) request['solarsystem'] = opts['solarsystem']
         
         $.getJSON(opts["url.check"], request, function(data){
             if (data.result) {
@@ -94,6 +107,7 @@ function dynamic_reports(selector, options) {
         };
         
         if (opts['hash']) request['hash'] = opts['hash']
+        if (opts['solarsystem']) request['solarsystem'] = opts['solarsystem']
 
         $.getJSON(opts["url.reports"], request, function(data){
             $reports.children().each(function(){
@@ -111,9 +125,11 @@ function dynamic_reports(selector, options) {
                 $("<li>", {"class": "notice"}).text("No available reports").appendTo($reports);
                 return;
             }
-            
-            for (i in data.result) {
-                var r = data.result[i];
+
+            var reports = sort_reports(data.result)
+
+            for (i in reports) {
+                var r = reports[i];
                 var $report = setup_report(r)
                 
                 $report.appendTo($reports);

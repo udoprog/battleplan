@@ -4,7 +4,7 @@ UNDEFINED = runtime.UNDEFINED
 __M_dict_builtin = dict
 __M_locals_builtin = locals
 _magic_number = 5
-_modified_time = 1294503314.695811
+_modified_time = 1294552055.7788441
 _template_filename='/home/udoprog/repo/git/battleplan/battleplan/templates/auth/signin.mako'
 _template_uri='/auth/signin.mako'
 _template_cache=cache.Cache(__name__, _modified_time)
@@ -31,40 +31,45 @@ def render_body(context,**pageargs):
         url = context.get('url', UNDEFINED)
         h = context.get('h', UNDEFINED)
         c = context.get('c', UNDEFINED)
-        hasattr = context.get('hasattr', UNDEFINED)
+        len = context.get('len', UNDEFINED)
         __M_writer = context.writer()
         # SOURCE LINE 1
-        __M_writer(u'\n\n<b>')
+        __M_writer(u'\n\n<h1>Locked <em>')
         # SOURCE LINE 3
         __M_writer(escape(c.path_before_login))
-        __M_writer(u'</b>\n\n')
+        __M_writer(u'</em></h1>\n\n')
         # SOURCE LINE 5
-        if hasattr(c, "error"):
-            # SOURCE LINE 6
-            __M_writer(u'    ')
-            __M_writer(escape(c.error))
-            __M_writer(u'\n')
-            pass
-        # SOURCE LINE 8
-        __M_writer(u'\n')
-        # SOURCE LINE 9
         __M_writer(escape(h.form(url("auth_signin"), method="post")))
         __M_writer(u'\n<table>\n    <tr>\n        <td>Name:</td>\n        <td>')
-        # SOURCE LINE 13
+        # SOURCE LINE 9
         __M_writer(escape(h.text("name", value=c.name)))
         __M_writer(u'</td>\n    </tr>\n    <tr>\n        <td>Api User-ID:</td>\n        <td>')
-        # SOURCE LINE 17
+        # SOURCE LINE 13
         __M_writer(escape(h.text("api_userid", value=c.api_userid)))
         __M_writer(u'</td>\n    </tr>\n    <tr>\n        <td>Api Key:</td>\n        <td>')
-        # SOURCE LINE 21
+        # SOURCE LINE 17
         __M_writer(escape(h.text("api_key", value=c.api_key)))
         __M_writer(u'</td>\n    </tr>\n    <tr>\n        <td colspan="2">')
-        # SOURCE LINE 24
+        # SOURCE LINE 20
         __M_writer(escape(h.submit("authenticate", "Authenticate")))
         __M_writer(u'</td>\n    </tr>\n</table>\n\n')
-        # SOURCE LINE 28
+        # SOURCE LINE 24
         __M_writer(escape(h.end_form()))
-        __M_writer(u'\n')
+        __M_writer(u'\n\n<h4>Allowed Alliances</h4>\n<ul>\n')
+        # SOURCE LINE 28
+        if len(c.alliances) == 0:
+            # SOURCE LINE 29
+            __M_writer(u'    <li>No registered alliances</li>\n')
+            pass
+        # SOURCE LINE 31
+        for a in c.alliances:
+            # SOURCE LINE 32
+            __M_writer(u'    <li><b>')
+            __M_writer(escape(a))
+            __M_writer(u'</b></li>\n')
+            pass
+        # SOURCE LINE 34
+        __M_writer(u'</ul>\n')
         return ''
     finally:
         context.caller_stack._pop_frame()

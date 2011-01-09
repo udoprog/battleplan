@@ -13,8 +13,8 @@ class Integer:
     def __call__(self, value):
         if value is None: return self._handle_missing(); 
         i = int(value, self.base)
-        if i < self.min: return self.min
-        if i > self.max: return self.max
+        if self.min is not None and i < self.min: return self.min
+        if self.max is not None and i > self.max: return self.max
         return i
 
 class String:
