@@ -4,7 +4,7 @@ UNDEFINED = runtime.UNDEFINED
 __M_dict_builtin = dict
 __M_locals_builtin = locals
 _magic_number = 5
-_modified_time = 1294553687.7179661
+_modified_time = 1294602350.275317
 _template_filename=u'/home/udoprog/repo/git/battleplan/battleplan/templates/layout/main.mako'
 _template_uri=u'/layout/main.mako'
 _template_cache=cache.Cache(__name__, _modified_time)
@@ -89,9 +89,9 @@ def render_body(context,**pageargs):
         # SOURCE LINE 50
         __M_writer(escape(next.body()))
         __M_writer(u'\n        </div>\n    </body>\n</html>\n')
-        # SOURCE LINE 56
+        # SOURCE LINE 55
         __M_writer(u'\n')
-        # SOURCE LINE 57
+        # SOURCE LINE 56
         __M_writer(u'\n')
         return ''
     finally:
@@ -112,9 +112,6 @@ def render_top(context):
     try:
         __M_writer = context.writer()
         # SOURCE LINE 54
-        __M_writer(u'\n')
-        # SOURCE LINE 55
-        runtime._include_file(context, u'/errors.mako', _template_uri)
         __M_writer(u'\n')
         return ''
     finally:

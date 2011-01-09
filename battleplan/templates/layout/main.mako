@@ -52,6 +52,5 @@
     </body>
 </html>
 <%def name="top()">
-<%include file="/errors.mako" />
 </%def>
 <%def name="headtags()"></%def>

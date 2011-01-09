@@ -4,6 +4,7 @@ import os
 from mako.lookup import TemplateLookup
 from pylons.configuration import PylonsConfig
 from pylons.error import handle_mako_error
+from paste.deploy.converters import asbool
 from sqlalchemy import engine_from_config
 
 import battleplan.lib.app_globals as app_globals
@@ -53,5 +54,6 @@ def load_environment(global_conf, app_conf):
     config["pylons.app_globals"].systems = init_systems()
     config["pylons.app_globals"].jumps = init_jumps()
     config["pylons.app_globals"].alliances = [unicode(a.strip()) for a in list(open(config["alliance_list"]))]
+    config["pylons.app_globals"].check_api = asbool(config['check_api'])
     
     return config

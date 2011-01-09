@@ -2,6 +2,20 @@
 
 <h1>Locked <em>${c.path_before_login}</em></h1>
 
+<%include file="/errors.mako" />
+
+%if "name" in c.errors:
+    <div class="error">Name: ${c.errors.name}</div>
+%endif
+
+%if "api_userid" in c.errors:
+    <div class="error">Api User-ID: ${c.errors.api_userid}</div>
+%endif
+
+%if "api_key" in c.errors:
+    <div class="error">Api Key: ${c.errors.api_key}</div>
+%endif
+
 ${h.form(url("auth_signin"), method="post")}
 <table>
     <tr>
